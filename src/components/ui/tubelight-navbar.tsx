@@ -20,35 +20,40 @@ export function NavBar({ items, className }: NavBarProps) {
   const [activeTab, setActiveTab] = useState(items[0]?.name)
 
   useEffect(() => {
-    const sections = items
-      .map((item) => document.querySelector(item.url))
-      .filter(Boolean) as HTMLElement[]
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + window.innerHeight * 0.45
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+      let currentSection = items[0]?.name
 
-        if (visible) {
-          const activeItem = items.find(
-            (item) => item.url === `#${visible.target.id}`
-          )
+      for (const item of items) {
+        const section = document.querySelector(item.url) as HTMLElement | null
 
-          if (activeItem) {
-            setActiveTab(activeItem.name)
+        if (section) {
+          const sectionTop = section.offsetTop
+          const sectionBottom = sectionTop + section.offsetHeight
+
+          if (
+            scrollPosition >= sectionTop &&
+            scrollPosition < sectionBottom
+          ) {
+            currentSection = item.name
+            break
           }
         }
-      },
-      {
-        rootMargin: "-35% 0px -45% 0px",
-        threshold: [0.1, 0.25, 0.5, 0.75],
       }
-    )
 
-    sections.forEach((section) => observer.observe(section))
+      setActiveTab(currentSection)
+    }
 
-    return () => observer.disconnect()
+    handleScroll()
+
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    window.addEventListener("resize", handleScroll)
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      window.removeEventListener("resize", handleScroll)
+    }
   }, [items])
 
   const handleClick = (
@@ -104,8 +109,9 @@ export function NavBar({ items, className }: NavBarProps) {
                   initial={false}
                   transition={{
                     type: "spring",
-                    stiffness: 260,
-                    damping: 28,
+                    stiffness: 220,
+                    damping: 26,
+                    mass: 0.8,
                   }}
                 >
                   <div className="absolute -top-2 left-1/2 h-1 w-8 -translate-x-1/2 rounded-t-full bg-[#f6a21a]">

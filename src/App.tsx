@@ -541,34 +541,32 @@ export default function App() {
         </div>
 
         <Reveal>
-          <h3 className="mt-20 text-3xl font-black">More GitHub Projects</h3>
+  <div className="mt-20 rounded-[2rem] border border-[#ead7b7] bg-[#fffaf0]/80 p-10 sm:p-14 text-center shadow-[0_25px_80px_rgba(100,70,30,.12)]">
 
-          <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {moreProjects.map(([title, repo]) => (
-              <motion.div
-                key={title}
-                whileHover={{ y: -5, scale: 1.03 }}
-                className="rounded-2xl border border-[#ead7b7] bg-[#fffaf0]/70 px-4 py-4 font-bold"
-              >
-                <p>{title}</p>
+    <p className="text-sm font-black uppercase tracking-[0.25em] text-[#ca761e]">
+      ✦ More Projects
+    </p>
 
-                {repo ? (
-                  <a
-                    href={`https://github.com/CodeX-ByAadhi/${repo}`}
-                    target="_blank"
-                    className="mt-3 inline-flex items-center gap-2 text-sm text-[#ca761e]"
-                  >
-                    <GitBranch size={15} /> GitHub
-                  </a>
-                ) : (
-                  <span className="mt-3 inline-flex text-sm text-[#8a5b1a]">
-                    Old IoT Project
-                  </span>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </Reveal>
+    <h3 className="mt-5 text-4xl sm:text-5xl font-black tracking-[-.05em]">
+      Want to see more?
+    </h3>
+
+    <p className="mt-6 text-base leading-8 text-[#5f4b32]">
+      Hit the button below to explore my latest works.
+    </p>
+
+    <a
+      href="https://github.com/CodeX-ByAadhi?tab=repositories"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="mt-8 inline-flex items-center gap-3 rounded-full bg-[#2f2418] px-8 py-4 font-bold text-[#fff8e8] shadow-[0_18px_40px_rgba(47,36,24,.22)] hover:-translate-y-1 transition"
+    >
+      <GitBranch size={20} />
+      Explore My Projects
+    </a>
+
+  </div>
+</Reveal>
       </section>
 
       <section
